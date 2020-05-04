@@ -19,6 +19,18 @@ func Test_PrintValue(t *testing.T) {
 	os.Remove("Book1.xlsx")
 }
 
+func Test_PrintValue_error(t *testing.T) {
+	actual := CreateEmptyFile("Book1.xlsx")
+	assert.NoError(t, actual)
+	f, err := Load("Book1.xlsx")
+	assert.NoError(t, err)
+	actual = SetValue(f, "Sheet1", "A1", "TestValue")
+	assert.NoError(t, actual)
+	actual = PrintValue(f, "Sheet99", "A1")
+	assert.Error(t, actual)
+	os.Remove("Book1.xlsx")
+}
+
 func Test_Dump(t *testing.T) {
 	actual := CreateEmptyFile("Book1.xlsx")
 	assert.NoError(t, actual)
@@ -28,6 +40,18 @@ func Test_Dump(t *testing.T) {
 	assert.NoError(t, actual)
 	actual = Dump(f, "Sheet1", "\t")
 	assert.NoError(t, actual)
+	os.Remove("Book1.xlsx")
+}
+
+func Test_Dump_error(t *testing.T) {
+	actual := CreateEmptyFile("Book1.xlsx")
+	assert.NoError(t, actual)
+	f, err := Load("Book1.xlsx")
+	assert.NoError(t, err)
+	actual = SetValue(f, "Sheet1", "A1", "TestValue")
+	assert.NoError(t, actual)
+	actual = Dump(f, "Sheet99", "\t")
+	assert.Error(t, actual)
 	os.Remove("Book1.xlsx")
 }
 
