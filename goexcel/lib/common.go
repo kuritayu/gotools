@@ -12,3 +12,5 @@ func Load(name string) (*excelize.File, error) {
 	}
 	return f, nil
 }
+
+// TODO saveメソッドを再定義して、先頭シートのA1を選択させるようにする
