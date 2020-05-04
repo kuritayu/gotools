@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Yusuke.Kurita
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,23 +16,45 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"errors"
 
+	goexcel "github.com/kuritayu/gotools/goexcel/lib"
 	"github.com/spf13/cobra"
 )
 
 // setCmd represents the set command
 var setCmd = &cobra.Command{
 	Use:   "set",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Excelの各種情報を更新します。",
+	Long: `Excelの各種情報を更新します。
+使用例: 
+	1. シート名更新(Sheet1をSheet2更新)
+	goexcel set Book1.xlsx Sheet1 Sheet2
+  
+	2. セル値出力(Sheet1のA1を100に更新)
+	goexcel set Book1.xlsx Sheet1 A1 100
+ 
+	`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(args) != 3 && len(args) != 4 {
+			return errors.New("引数が不正です。")
+		}
+		f, err := goexcel.Load(args[0])
+		if err != nil {
+			return err
+		}
+		switch len(args) {
+		case 3:
+			if err := goexcel.RenameSheet(f, args[1], args[2]); err != nil {
+				return err
+			}
+		case 4:
+			if err := goexcel.SetValue(f, args[1], args[2], args[3]); err != nil {
+				return err
+			}
+		}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("set called")
+		return nil
 	},
 }
 
