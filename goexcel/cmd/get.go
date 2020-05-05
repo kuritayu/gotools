@@ -39,7 +39,6 @@ var getCmd = &cobra.Command{
 
    `,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// TODO 出力形式をjsonに
 		if len(args) < 1 || len(args) > 3 {
 			return errors.New("引数が不正です。")
 		}
@@ -57,7 +56,6 @@ var getCmd = &cobra.Command{
 				return err
 			}
 		case 3:
-			// TODO RC記法をサポートする
 			if err := goexcel.PrintValue(f, args[1], args[2]); err != nil {
 				return err
 			}
