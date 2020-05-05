@@ -16,23 +16,45 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"errors"
 
+	goexcel "github.com/kuritayu/gotools/goexcel/lib"
 	"github.com/spf13/cobra"
 )
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Excelの各種情報を削除します。",
+	Long: `Excelの各種情報を削除します。
+使用例: 
+	1. ブック削除
+	goexcel delete Book1.xlsx
+  
+	2. シート削除
+	goexcel delete Book1.xlsx Sheet1
+ 
+	`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(args) != 1 && len(args) != 2 {
+			return errors.New("引数が不正です。")
+		}
+		switch len(args) {
+		case 1:
+			if err := goexcel.DeleteBook(args[0]); err != nil {
+				return err
+			}
+		case 2:
+			f, err := goexcel.Load(args[0])
+			if err != nil {
+				return err
+			}
+			if err := goexcel.DeleteSheet(f, args[1]); err != nil {
+				return err
+			}
+		}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		return nil
 	},
 }
 

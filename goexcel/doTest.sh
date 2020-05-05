@@ -51,6 +51,16 @@ setup() {
     [ "${lines[1]}" = "Sheet2" ]
 }
 
+@test "delete sheet" {
+    run goexcel delete Book1.xlsx Sheet2
+    [ "$status" -eq 0 ]
+}
+
+@test "delete book" {
+    run goexcel delete Book1.xlsx
+    [ "$status" -eq 0 ]
+}
+
 @test "show help" {
     run goexcel get -h
     [ "$status" -eq 0 ]
@@ -72,6 +82,11 @@ setup() {
     [ "$status" -eq 1 ]
 }
 
+@test "no argument for delete subcommand" {
+    run goexcel delete
+    [ "$status" -eq 1 ]
+}
+
 @test "noonexistent file for get subcommand" {
     run goexcel get a
     [ "$status" -eq 1 ]
@@ -87,6 +102,10 @@ setup() {
     [ "$status" -eq 1 ]
 }
 
+@test "noonexistent file for delete subcommand" {
+    run goexcel set a
+    [ "$status" -eq 1 ]
+}
 
 @test "noonexistent sheet for get subcommand" {
     run goexcel get Book1.xlsx a
@@ -95,6 +114,11 @@ setup() {
 
 @test "noonexistent sheet for set subcommand" {
     run goexcel set Book1.xlsx a b
+    [ "$status" -eq 1 ]
+}
+
+@test "noonexistent sheet for delete subcommand" {
+    run goexcel set Book1.xlsx a
     [ "$status" -eq 1 ]
 }
 

@@ -21,7 +21,3 @@ func CreateSheet(f *excelize.File, name string) error {
 	}
 	return nil
 }
-
-// TODO delete book
-// TODO delete Sheet
-// TODO delete value
