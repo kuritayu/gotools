@@ -1,7 +1,6 @@
 package goexcel
 
 import (
-	"errors"
 	"os"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -17,9 +16,8 @@ func DeleteBook(name string) error {
 
 // DeleteSheet シートを削除します。
 func DeleteSheet(f *excelize.File, name string) error {
-	// FIXME 重複コード
-	if f.GetSheetIndex(name) == -1 {
-		return errors.New("シートが存在しません。")
+	if err := IsExistedSheet(f, name); err != nil {
+		return err
 	}
 	f.DeleteSheet(name)
 	return nil

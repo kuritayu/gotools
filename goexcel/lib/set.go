@@ -1,8 +1,6 @@
 package goexcel
 
 import (
-	"errors"
-
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
@@ -19,8 +17,8 @@ func SetValue(f *excelize.File, name string, axis string, value string) error {
 
 // RenameSheet シート名をリネームします。
 func RenameSheet(f *excelize.File, old string, new string) error {
-	if f.GetSheetIndex(old) == -1 {
-		return errors.New("シートが存在しません。")
+	if err := IsExistedSheet(f, old); err != nil {
+		return err
 	}
 	f.SetSheetName(old, new)
 	if err := f.Save(); err != nil {

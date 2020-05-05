@@ -13,4 +13,12 @@ func Load(name string) (*excelize.File, error) {
 	return f, nil
 }
 
-// TODO saveメソッドを再定義して、先頭シートのA1を選択させるようにする
+// IsExistedSheet シートが存在しているか確認します。
+func IsExistedSheet(f *excelize.File, name string) error {
+	if f.GetSheetIndex(name) == -1 {
+		return excelize.ErrSheetNotExist{
+			SheetName: name,
+		}
+	}
+	return nil
+}
