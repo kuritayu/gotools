@@ -1,2 +1,5 @@
 .DS_Store
 goexcel.code-workspace
+goexcel_linux
+goexcel_mac
+goexcel_win

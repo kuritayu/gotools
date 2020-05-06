@@ -31,7 +31,7 @@ var setCmd = &cobra.Command{
 	1. シート名更新(Sheet1をSheet2更新)
 	goexcel set Book1.xlsx Sheet1 Sheet2
   
-	2. セル値出力(Sheet1のA1を100に更新)
+	2. セル値更新(Sheet1のA1を100に更新)
 	goexcel set Book1.xlsx Sheet1 A1 100
  
 	`,
